@@ -30,7 +30,9 @@ public interface UserService {
 
     boolean updateUserSignature(int userId, String signature);
 
-    boolean updateUserAvatar(int userId);
+    boolean updateUserAvatar(int userId, String avatar);
+
+    boolean updateUserBackground(int userId, String background);
 
     /**
      * 删除用户
@@ -41,9 +43,9 @@ public interface UserService {
 
     /**
      * 根据用户名字查询用户信息
-     * @param userName
+     * @param nickname
      */
-    List<User> findUserByName(String userName);
+    List<User> findUserByNickname(String nickname);
 
     User findUserById(int userId);
 

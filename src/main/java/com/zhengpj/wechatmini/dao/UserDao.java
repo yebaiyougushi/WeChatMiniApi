@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public interface UserDao extends JpaRepository<User, Integer> {
-    List<User> findByNickname(String nickname);
+    List<User> findByNicknameLike(String nickname);
 
 
 }

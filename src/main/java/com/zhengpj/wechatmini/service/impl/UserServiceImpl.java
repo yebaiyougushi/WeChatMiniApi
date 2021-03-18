@@ -109,9 +109,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserAvatar(int userId) {
-        System.out.println("开始修改头像");
-        return false;
+    public boolean updateUserAvatar(int userId, String avatar) {
+        System.out.println("开始修改头像, userid="+userId+", avatar="+avatar);
+        boolean flag = false;
+        try {
+
+            Optional<User> optional = userDao.findById(userId);
+            if (optional.isEmpty())
+                return false;
+            User user = optional.get();
+            user.setAvatar(avatar);
+            userDao.save(user);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateUserBackground(int userId, String background) {
+        System.out.println("开始修改背景，useId="+userId+", background="+background);
+        boolean flag = false;
+        try {
+
+            Optional<User> optional = userDao.findById(userId);
+            if (optional.isEmpty())
+                return false;
+            User user = optional.get();
+            user.setBackground(background);
+            userDao.save(user);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
     }
 
     @Override
@@ -129,9 +161,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserByName(String userName) {
-        System.out.println("开始查询, username="+userName);
-        return userDao.findByNickname(userName);
+    public List<User> findUserByNickname(String nickname) {
+        System.out.println("开始查询, nickname="+nickname);
+        return userDao.findByNicknameLike("%"+nickname+"%");
     }
 
     @Override
@@ -139,14 +171,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("开始查询, userId="+userId);
         Optional<User> optional = userDao.findById(userId);
         if(optional.isEmpty()){
-            System.out.println("第一次登陆需要新建用户, userId="+userId);
-            User newUser = new User();
-            newUser.setId(userId);
-            newUser.setNickname("昵称");
-            newUser.setSex("1");
-            newUser.setSignature("keep running");
-            userDao.save(newUser);
-            return newUser;
+            return null;
         }
         return optional.get();
     }

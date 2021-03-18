@@ -6,6 +6,7 @@ com\zhengpj\wechatmini\service\impl\MomentServiceImpl.class
 com\zhengpj\wechatmini\service\UserService.class
 com\zhengpj\wechatmini\Swagger2.class
 com\zhengpj\wechatmini\entity\Moment.class
+com\zhengpj\wechatmini\controller\Helper.class
 com\zhengpj\wechatmini\dao\MomentDao.class
 com\zhengpj\wechatmini\controller\UserController.class
 com\zhengpj\wechatmini\service\impl\UserServiceImpl.class
