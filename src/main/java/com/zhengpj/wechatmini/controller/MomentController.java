@@ -1,7 +1,9 @@
 package com.zhengpj.wechatmini.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.zhengpj.wechatmini.entity.Moment;
+import com.zhengpj.wechatmini.entity.FriendCircleEntity;
+import com.zhengpj.wechatmini.entity.MomentEntity;
+import com.zhengpj.wechatmini.entity.PraiseEntity;
 import com.zhengpj.wechatmini.service.MomentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +35,7 @@ public class MomentController {
         List<MultipartFile> images = ((MultipartHttpServletRequest) request)
                 .getFiles("moment_images");
         String momentStr = params.getParameter("moment");
-        Moment moment = JSON.parseObject(momentStr, Moment.class);
+        MomentEntity moment = JSON.parseObject(momentStr, MomentEntity.class);
         System.out.println("开始新增momentstr, " + momentStr + ", moment=" + moment.toString());
 
         List<String> imageUrls = new ArrayList<>();
@@ -55,11 +57,28 @@ public class MomentController {
 //        return true;
     }
 
-    @GetMapping("/moment")
-    @ApiOperation(value = "根据id获取朋友圈")
-    public List<Moment> getMoment(@RequestParam(value = "userId", required = true) int userId) {
+    @GetMapping("/moment/userId")
+    @ApiOperation(value = "根据用户id获取朋友圈")
+    public List<FriendCircleEntity> getMoments(@RequestParam(value = "userId", required = true) int userId) {
         System.out.println("开始获取moment, userid = " + userId);
-        return momentService.findMomentByUserid(userId);
+        List<FriendCircleEntity> result = new ArrayList<>();
+        List<MomentEntity> moments = momentService.findMomentByUserid(userId);
+        for(MomentEntity moment:moments){
+            List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
+            FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
+            result.add(friendCircleEntity);
+        }
+        return result;
+    }
+
+    @GetMapping("moment/id")
+    @ApiOperation(value = "根据朋友圈id获取单条朋友圈，刷新用")
+    public FriendCircleEntity getSingleMoment(@RequestParam(value = "id")int id){
+        System.out.println("开始获取moment, momentId = " + id);
+        MomentEntity moment = momentService.findMomentById(id);
+        List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
+        FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
+        return friendCircleEntity;
     }
 
     @DeleteMapping("/moment")
@@ -67,6 +86,19 @@ public class MomentController {
     public boolean deleteMoment(@RequestParam(value = "id", required = true) int id) {
         System.out.println("开始删除moment, id = " + id);
         return momentService.deleteMoment(id);
+    }
+    @GetMapping("/moment/praise")
+    @ApiOperation(value = "根据momentId获取点赞")
+    public List<PraiseEntity> getPraises(@RequestParam(value = "momentId", required = true) int momentId) {
+        System.out.println("开始获取评论,momentId=" + momentId);
+        return momentService.findPraisesByMomentId(momentId);
+    }
+
+    @RequestMapping(value = "/moment/praise", method = RequestMethod.POST, headers = {"content-type=application/json"})
+    @ApiOperation(value = "新增点赞")
+    public boolean addPraise(@RequestBody PraiseEntity praise) {
+        System.out.println("开始新增点赞, praise:"+praise.toString());
+        return momentService.addPraise(praise);
     }
 
 

@@ -126,6 +126,7 @@ public class UserController {
     @ApiImplicitParam(paramType = "query", name = "nickname", value = "用户昵称", required = true, dataType = "String")
     public List<User> findByNickname(@RequestParam(value = "nickname", required = true) String nickname) {
 
+
         return userService.findUserByNickname(nickname);
     }
 

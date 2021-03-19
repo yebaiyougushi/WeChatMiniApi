@@ -1,6 +1,7 @@
 package com.zhengpj.wechatmini.service;
 
-import com.zhengpj.wechatmini.entity.Moment;
+import com.zhengpj.wechatmini.entity.MomentEntity;
+import com.zhengpj.wechatmini.entity.PraiseEntity;
 
 import java.util.List;
 
@@ -9,9 +10,15 @@ import java.util.List;
  * @date 2021/3/10 13:03
  */
 public interface MomentService {
-    boolean addMoment(Moment moment);
+    boolean addMoment(MomentEntity moment);
 
     boolean deleteMoment(int id);
 
-    List<Moment> findMomentByUserid(int userId);
+    boolean addPraise(PraiseEntity praise);
+
+    List<MomentEntity> findMomentByUserid(int userId);
+
+    MomentEntity findMomentById(int id);
+
+    List<PraiseEntity> findPraisesByMomentId(int momentId);
 }

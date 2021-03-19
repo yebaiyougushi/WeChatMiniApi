@@ -1,7 +1,7 @@
 package com.zhengpj.wechatmini;
 
 import com.zhengpj.wechatmini.controller.UserController;
-import com.zhengpj.wechatmini.entity.Moment;
+import com.zhengpj.wechatmini.entity.MomentEntity;
 import com.zhengpj.wechatmini.entity.User;
 import com.zhengpj.wechatmini.service.MomentService;
 import com.zhengpj.wechatmini.service.UserService;
@@ -59,7 +59,7 @@ public class ControllerTest {
 
     @Test
     public void testAddMoment(){
-        Moment moment = new Moment();
+        MomentEntity moment = new MomentEntity();
         moment.setId(1);
         moment.setContent("testing");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

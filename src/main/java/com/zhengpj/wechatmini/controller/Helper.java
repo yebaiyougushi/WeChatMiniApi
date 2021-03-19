@@ -1,6 +1,6 @@
 package com.zhengpj.wechatmini.controller;
 
-import com.zhengpj.wechatmini.entity.Moment;
+import com.zhengpj.wechatmini.entity.MomentEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -39,7 +39,7 @@ public class Helper {
         String datePath = "/" + str[0] + "/" + str[1] + "/" + str[2];
         return datePath;
     }
-    public static void setImagesUrlForMoment(Moment moment, List<String> images){
+    public static void setImagesUrlForMoment(MomentEntity moment, List<String> images){
         int size = images.size();
         moment.setImageNum(size);
         if(size>=1)moment.setImg1(images.get(0));

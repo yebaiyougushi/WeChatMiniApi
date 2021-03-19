@@ -1,6 +1,10 @@
 package com.zhengpj.wechatmini.service.impl;
 
+import com.zhengpj.wechatmini.controller.MomentController;
+import com.zhengpj.wechatmini.dao.MomentDao;
+import com.zhengpj.wechatmini.dao.PraiseDao;
 import com.zhengpj.wechatmini.dao.UserDao;
+import com.zhengpj.wechatmini.entity.PraiseEntity;
 import com.zhengpj.wechatmini.entity.User;
 import com.zhengpj.wechatmini.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
-
+    @Autowired
+    private PraiseDao praiseDao;
     @Override
     public boolean addUser(User user) {
         boolean flag = false;
@@ -82,6 +87,13 @@ public class UserServiceImpl implements UserService {
             User user = optional.get();
             user.setNickname(nickname);
             userDao.save(user);
+            //更新昵称之后需要更新点赞中的昵称
+            List<PraiseEntity> praiseEntities = praiseDao.findByPraiseUserId(user.getId());
+            //System.out.println("praise size="+praiseEntities.size());
+            for(PraiseEntity praiseEntity:praiseEntities){
+                praiseEntity.setPraiseUserNickname(nickname);
+                praiseDao.save(praiseEntity);
+            }
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
