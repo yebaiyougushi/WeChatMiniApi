@@ -1,6 +1,6 @@
 package com.zhengpj.wechatmini.service;
 
-import com.zhengpj.wechatmini.entity.User;
+import com.zhengpj.wechatmini.entity.UserEntity;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ public interface UserService {
      * @param user
      * @return
      */
-    boolean addUser(User user);
+    boolean addUser(UserEntity user);
 
     /**
      * 修改用户
      * @param user
      * @return
      */
-    boolean updateUser(User user);
+    boolean updateUser(UserEntity user);
 
     boolean updateUserSex(int userId, String sex);
 
@@ -45,16 +45,16 @@ public interface UserService {
      * 根据用户名字查询用户信息
      * @param nickname
      */
-    List<User> findUserByNickname(String nickname);
+    List<UserEntity> findUserByName(String nickname);
 
-    User findUserById(int userId);
+    UserEntity findUserById(int userId);
 
 
     /**
      * 查询所有
      * @return
      */
-    List<User> findAll();
+    List<UserEntity> findAll();
 
 
 }

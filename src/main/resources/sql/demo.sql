@@ -15,10 +15,31 @@ CREATE TABLE `user` (
   `sex` varchar(2) DEFAULT NULL COMMENT '性别',
   `signature` varchar (50) COMMENT '个性签名',
   `avatar` varchar (100) comment '头像',
-  `background` varchar (100) commit '背景'
+  `background` varchar (100) comment '背景'
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- //好友表
+drop table if exists `contact`;
+create table `contact`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `friendId` int(11) NOT NULL ,
+  `contact` int(11) comment '黑名单',
+  primary key (`id`),
+  foreign key (friendId) references user(id) on delete cascade on update cascade,
+  foreign key (userId) references user(id) on delete cascade on update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- //朋友圈发布时间表
+drop table if exists `timeline`;
+create table `timeline`(
+  `id` int not null AUTO_INCREMENT,
+  `userId` int not null,
+  `momentId` bigint not null,
+  `timestamp` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+  primary key (`id`),
+  foreign key (userId) references user(id) on delete cascade on update cascade,
+  foreign key (momentId) references moment(id) on delete cascade on update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `moment`;
 -- //朋友圈表
 create table `moment` (

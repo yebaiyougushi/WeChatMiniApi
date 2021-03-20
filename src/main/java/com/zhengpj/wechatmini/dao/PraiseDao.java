@@ -9,7 +9,10 @@ import java.util.List;
  * @author zhengpeijian
  * @date 2021/3/19 1:48
  */
-public interface PraiseDao extends JpaRepository<PraiseEntity,Integer> {
+public interface PraiseDao extends JpaRepository<PraiseEntity, Integer> {
     List<PraiseEntity> findByMomentId(int momentId);
+
     List<PraiseEntity> findByPraiseUserId(int userId);
+
+    void deleteByPraiseUserId(int userId);
 }

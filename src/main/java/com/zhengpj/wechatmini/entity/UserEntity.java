@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "user")
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 @ApiModel(description = "用户信息类")
-public class User {
+public class UserEntity {
     /**
      * 编号
      */
@@ -45,6 +45,7 @@ public class User {
     @ApiModelProperty(value = "initialLetter", example = "z")
     @Column(name = "initialletter")
     private String initialLetter;
+    @Column(name = "contact")
     private int contact;
     @Column(name = "modifynicknametimestamp")
     private long modifyNicknameTimestamp;
@@ -142,7 +143,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{id=" + id +
+        return "UserEntity{id=" + id +
                 ", nickname=" + nickname +
                 ", sex=" + sex +
                 ", signature=" + signature +

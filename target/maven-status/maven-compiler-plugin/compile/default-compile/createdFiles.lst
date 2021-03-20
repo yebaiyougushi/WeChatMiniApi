@@ -1,12 +1,9 @@
-com\zhengpj\wechatmini\controller\MomentController.class
-com\zhengpj\wechatmini\service\MomentService.class
-com\zhengpj\wechatmini\Application.class
 com\zhengpj\wechatmini\dao\UserDao.class
-com\zhengpj\wechatmini\service\impl\MomentServiceImpl.class
 com\zhengpj\wechatmini\service\UserService.class
-com\zhengpj\wechatmini\Swagger2.class
 com\zhengpj\wechatmini\controller\Helper.class
 com\zhengpj\wechatmini\dao\MomentDao.class
 com\zhengpj\wechatmini\controller\UserController.class
+com\zhengpj\wechatmini\controller\MomentController.class
+com\zhengpj\wechatmini\Application.class
+com\zhengpj\wechatmini\Swagger2.class
 com\zhengpj\wechatmini\service\impl\UserServiceImpl.class
-com\zhengpj\wechatmini\entity\User.class

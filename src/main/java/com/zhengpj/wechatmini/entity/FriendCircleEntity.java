@@ -12,7 +12,7 @@ public class FriendCircleEntity implements Comparable<FriendCircleEntity>{
     private MomentEntity momentEntity;
     private List<String> imgUrls;
     private List<PraiseEntity> praiseEntities;
-
+    private UserEntity userEntity;
     public FriendCircleEntity() {
     }
 
@@ -47,6 +47,13 @@ public class FriendCircleEntity implements Comparable<FriendCircleEntity>{
     public void setMomentEntity(MomentEntity Moment) {
         this.momentEntity = Moment;
     }
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
     private void getUrlListFromMoment(MomentEntity Moment, List<String> url) {
         int imageNum = Moment.getImageNum();
@@ -61,15 +68,16 @@ public class FriendCircleEntity implements Comparable<FriendCircleEntity>{
         if (imageNum >= 9) url.add(Moment.getImg9());
 
     }
+
     @Override
     public String toString() {
         return "FriendCircleEntity{" +
                 "momentEntity:{" + momentEntity +
                 "}, imgUrls:{" + imgUrls +
                 "}, praiseEntities:{" + praiseEntities +
+                "}, userEntity:{" + userEntity +
                 "}}";
     }
-
     @Override
     public int compareTo(FriendCircleEntity o) {
         return this.momentEntity.compareTo(o.getMomentEntity());

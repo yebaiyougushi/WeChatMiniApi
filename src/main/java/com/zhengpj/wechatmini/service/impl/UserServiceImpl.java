@@ -1,15 +1,15 @@
 package com.zhengpj.wechatmini.service.impl;
 
-import com.zhengpj.wechatmini.controller.MomentController;
-import com.zhengpj.wechatmini.dao.MomentDao;
 import com.zhengpj.wechatmini.dao.PraiseDao;
 import com.zhengpj.wechatmini.dao.UserDao;
 import com.zhengpj.wechatmini.entity.PraiseEntity;
-import com.zhengpj.wechatmini.entity.User;
+import com.zhengpj.wechatmini.entity.UserEntity;
 import com.zhengpj.wechatmini.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PraiseDao praiseDao;
     @Override
-    public boolean addUser(User user) {
+    public boolean addUser(UserEntity user) {
         boolean flag = false;
         System.out.println("开始新增, user="+user.toString());
         try {
@@ -37,15 +37,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(UserEntity user) {
         boolean flag = false;
         System.out.println("开始更新..., user="+user.toString());
         try {
             int oldId = user.getId();
-            Optional<User> optional = userDao.findById(oldId);
+            Optional<UserEntity> optional = userDao.findById(oldId);
             if (optional.isEmpty())
                 return false;
-            User oldUser = optional.get();
+            UserEntity oldUser = optional.get();
             oldUser.setSex(user.getSex());
             oldUser.setNickname(user.getNickname());
             oldUser.setSignature(user.getSignature());
@@ -62,10 +62,10 @@ public class UserServiceImpl implements UserService {
         boolean flag = false;
         System.out.println("开始修改性别, userId="+userId+", sex="+sex);
         try {
-            Optional<User> optional = userDao.findById(userId);
+            Optional<UserEntity> optional = userDao.findById(userId);
             if (optional.isEmpty())
                 return false;
-            User user = optional.get();
+            UserEntity user = optional.get();
             user.setSex(sex);
             userDao.save(user);
             flag = true;
@@ -81,10 +81,10 @@ public class UserServiceImpl implements UserService {
         boolean flag = false;
         System.out.println("开始修改昵称, userId="+userId+", nickname="+nickname);
         try {
-            Optional<User> optional = userDao.findById(userId);
+            Optional<UserEntity> optional = userDao.findById(userId);
             if (optional.isEmpty())
                 return false;
-            User user = optional.get();
+            UserEntity user = optional.get();
             user.setNickname(nickname);
             userDao.save(user);
             //更新昵称之后需要更新点赞中的昵称
@@ -107,10 +107,10 @@ public class UserServiceImpl implements UserService {
         System.out.println("开始修改个性签名, userId="+userId+", signature="+signature);
         try {
 
-            Optional<User> optional = userDao.findById(userId);
+            Optional<UserEntity> optional = userDao.findById(userId);
             if (optional.isEmpty())
                 return false;
-            User user = optional.get();
+            UserEntity user = optional.get();
             user.setSignature(signature);
             userDao.save(user);
             flag = true;
@@ -126,10 +126,10 @@ public class UserServiceImpl implements UserService {
         boolean flag = false;
         try {
 
-            Optional<User> optional = userDao.findById(userId);
+            Optional<UserEntity> optional = userDao.findById(userId);
             if (optional.isEmpty())
                 return false;
-            User user = optional.get();
+            UserEntity user = optional.get();
             user.setAvatar(avatar);
             userDao.save(user);
             flag = true;
@@ -145,10 +145,10 @@ public class UserServiceImpl implements UserService {
         boolean flag = false;
         try {
 
-            Optional<User> optional = userDao.findById(userId);
+            Optional<UserEntity> optional = userDao.findById(userId);
             if (optional.isEmpty())
                 return false;
-            User user = optional.get();
+            UserEntity user = optional.get();
             user.setBackground(background);
             userDao.save(user);
             flag = true;
@@ -173,15 +173,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserByNickname(String nickname) {
-        System.out.println("开始查询, nickname="+nickname);
-        return userDao.findByNicknameLike("%"+nickname+"%");
+    public List<UserEntity> findUserByName(String name) {
+        System.out.println("开始查询, nickname="+name);
+        List<UserEntity> result = new ArrayList<>();
+        result.addAll(userDao.findByNicknameLike("%"+name+"%"));
+        result.addAll(userDao.findByUsername(name));
+        HashSet<UserEntity> hashSet = new HashSet<>(result);
+        result.clear();
+        result.addAll(hashSet);
+        return result;
     }
 
     @Override
-    public User findUserById(int userId) {
+    public UserEntity findUserById(int userId) {
         System.out.println("开始查询, userId="+userId);
-        Optional<User> optional = userDao.findById(userId);
+        Optional<UserEntity> optional = userDao.findById(userId);
         if(optional.isEmpty()){
             return null;
         }
@@ -190,7 +196,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() {
+    public List<UserEntity> findAll() {
 
         System.out.println("开始查询所有数据...");
         return userDao.findAll();

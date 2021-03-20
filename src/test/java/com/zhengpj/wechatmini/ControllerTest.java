@@ -2,9 +2,9 @@ package com.zhengpj.wechatmini;
 
 import com.zhengpj.wechatmini.controller.UserController;
 import com.zhengpj.wechatmini.entity.MomentEntity;
-import com.zhengpj.wechatmini.entity.User;
-import com.zhengpj.wechatmini.service.MomentService;
+import com.zhengpj.wechatmini.entity.UserEntity;
 import com.zhengpj.wechatmini.service.UserService;
+import com.zhengpj.wechatmini.service.impl.MomentService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class ControllerTest {
 
     @Test
     public void testAddUser() {
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setId(120820);
         user.setSex("1");
         user.setNickname("zpj");
@@ -66,6 +66,6 @@ public class ControllerTest {
         System.out.println("mills="+System.currentTimeMillis()+", timestamp="+timestamp.toString());
         moment.setTimestamp(timestamp);
         moment.setUserid(120820);
-        assert momentService.addMoment(moment);
+        assert momentService.addMoment(moment, null);
     }
 }

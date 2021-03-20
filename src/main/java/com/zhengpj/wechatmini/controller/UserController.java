@@ -1,6 +1,6 @@
 package com.zhengpj.wechatmini.controller;
 
-import com.zhengpj.wechatmini.entity.User;
+import com.zhengpj.wechatmini.entity.UserEntity;
 import com.zhengpj.wechatmini.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -27,14 +27,14 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST, headers = {"content-type=application/json"})
     @ApiOperation(value = "新增用户")
-    public boolean addUser(@RequestBody User user) {
+    public boolean addUser(@RequestBody UserEntity user) {
 
         return userService.addUser(user);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.PUT, headers = {"content-type=application/json"})
     @ApiOperation(value = "更新用户信息")
-    public boolean updateUser(@RequestBody User user) {
+    public boolean updateUser(@RequestBody UserEntity user) {
 
         return userService.updateUser(user);
     }
@@ -122,35 +122,33 @@ public class UserController {
 
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    @ApiOperation(value = "通过用户昵称查询用户信息")
-    @ApiImplicitParam(paramType = "query", name = "nickname", value = "用户昵称", required = true, dataType = "String")
-    public List<User> findByNickname(@RequestParam(value = "nickname", required = true) String nickname) {
+    @ApiOperation(value = "通过用户昵称或者名称id查询用户信息")
+    @ApiImplicitParam(paramType = "query", name = "name", value = "用户昵称或者名称ID", required = true, dataType = "String")
+    public List<UserEntity> findByName(@RequestParam(value = "name", required = true) String name) {
 
-
-        return userService.findUserByNickname(nickname);
+        return userService.findUserByName(name);
     }
 
 //    @RequestMapping(value = "/user", method = RequestMethod.GET)
 //    @ApiOperation(value = "通过用户昵称查询用户信息")
 //    @ApiImplicitParam(paramType = "query", name = "username", value = "用户名", required = true, dataType = "String")
-//    public User findByUsername(@RequestParam(value = "username", required = true) String username) {
+//    public UserEntity findByUsername(@RequestParam(value = "username", required = true) String username) {
 //        return userService.findUserById(username.hashCode());
-//        //return userService.findUserByNickname(nickname);
+//        //return userService.findUserByName(nickname);
 //    }
 
 
     @RequestMapping(value = "/user/id", method = RequestMethod.GET)
     @ApiOperation(value = "通过用户Id查询用户信息")
     @ApiImplicitParam(paramType = "query", name = "userId", value = "用户ID", required = true, dataType = "int")
-    public User findByUserId(@RequestParam(value = "userId", required = true) int userId) {
-
+    public UserEntity findByUserId(@RequestParam(value = "userId", required = true) int userId) {
         return userService.findUserById(userId);
     }
 
 
     @RequestMapping(value = "/userAll", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有用户信息")
-    public List<User> findAll() {
+    public List<UserEntity> findAll() {
 
         return userService.findAll();
     }

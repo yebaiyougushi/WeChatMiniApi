@@ -1,6 +1,6 @@
 package com.zhengpj.wechatmini.dao;
 
-import com.zhengpj.wechatmini.entity.User;
+import com.zhengpj.wechatmini.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
  */
 
 
-public interface UserDao extends JpaRepository<User, Integer> {
-    List<User> findByNicknameLike(String nickname);
-
+public interface UserDao extends JpaRepository<UserEntity, Integer> {
+    List<UserEntity> findByNicknameLike(String nickname);
+    List<UserEntity> findByUsername(String name);
 
 }
