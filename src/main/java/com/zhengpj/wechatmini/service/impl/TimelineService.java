@@ -55,11 +55,18 @@ public class TimelineService {
         return flag;
     }
 
-    public List<TimelineEntity> findByUserId(int userId) {
-        return timelineDao.findTimelineEntitiesByPage(userId);
+    public List<TimelineEntity> findByUserId(int userId, int momentId) {
+        if(momentId<0){
+            return timelineDao.findTimelineEntitiesByPage(userId);
+        } else {
+
+//            Timestamp t = Timestamp.valueOf(timestamp);
+            return timelineDao.findByUserIdOrderByMomentIdDesc(userId, momentId);
+        }
+
     }
 
-    public List<TimelineEntity> findByUserIdOrderByTimestamp(int userId, Timestamp timestamp) {
-        return timelineDao.findTimelineEntitiesByUserIdOrderByTimestampIdDesc(userId, timestamp);
-    }
+//    public List<TimelineEntity> findByUserIdOrderByTimestamp(int userId, Timestamp timestamp) {
+//        return timelineDao.findTimelineEntitiesByUserIdOrderByTimestampIdDesc(userId, timestamp);
+//    }
 }

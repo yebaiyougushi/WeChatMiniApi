@@ -59,8 +59,10 @@ public class MomentService {
         List<ContactsEntity> friends = contactsDao.findByUserIdNotBlack(moment.getUserid());
 
         boolean flag = false;
+        int lastMomentId = -1;
         try {
             momentDao.save(moment);
+            lastMomentId = momentDao.findMaxMomentId();
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,11 +77,10 @@ public class MomentService {
             return flag;
         }
         if (flag) {
-            int momentId = momentDao.findMaxMomentId();
-            System.out.println("last momentid=" + momentId);
+            System.out.println("last momentid=" + lastMomentId+", momentRealId="+moment.getId());
             for (ContactsEntity contactsEntity : friends) {
                 System.out.println("friendid = " + contactsEntity.getFriendId());
-                TimelineEntity timelineEntity = new TimelineEntity(0, contactsEntity.getFriendId(), momentId, moment.getTimestamp());
+                TimelineEntity timelineEntity = new TimelineEntity(0, contactsEntity.getFriendId(), moment.getId(), moment.getTimestamp());
                 timelineDao.save(timelineEntity);
             }
         }
@@ -113,8 +114,13 @@ public class MomentService {
     }
 
 
-    public List<MomentEntity> findMomentByUserid(int userId) {
-        List<MomentEntity> result = momentDao.findMomentByUserid(userId);
+    public List<MomentEntity> findMomentByUserid(int userId, int momentId) {
+        if (momentId == -1) {
+            return momentDao.findMomentByUserid(userId);
+        } else {
+
+        }
+        List<MomentEntity> result = momentDao.findByUseridOrOrderByIdDesc(userId, momentId);
         return result;
     }
 

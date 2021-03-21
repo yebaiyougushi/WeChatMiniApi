@@ -14,8 +14,8 @@ import java.util.List;
  */
 public interface TimelineDao extends JpaRepository<TimelineEntity, Integer> {
     //朋友圈下拉刷新用
-    @Query(value = "select * from timeline where userId=?1 and timstamp < ?2 order by timestamp desc limit 10", nativeQuery = true)
-    List<TimelineEntity> findTimelineEntitiesByUserIdOrderByTimestampIdDesc(int userId, Timestamp timestamp);
+    @Query(value = "select * from timeline where userId=?1 and momentId<?2 order by momentId desc limit 10", nativeQuery = true)
+    List<TimelineEntity> findByUserIdOrderByMomentIdDesc(int userId, int momengId);
 
     @Query(value = "select * from timeline where userId=?1 order by timestamp desc limit 10", nativeQuery = true)
     List<TimelineEntity> findTimelineEntitiesByPage(int userId);

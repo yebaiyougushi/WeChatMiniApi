@@ -48,10 +48,10 @@ public class MomentController {
 
     @GetMapping("/moment/self")
     @ApiOperation(value = "根据用户id获取自己的朋友圈")
-    public List<FriendCircleEntity> getSelfMoments(@RequestParam(value = "userId", required = true) int userId) {
-        System.out.println("开始获取moment, userid = " + userId);
+    public List<FriendCircleEntity> getSelfMoments(@RequestParam(value = "userId", required = true) int userId,@RequestParam(value = "momentId", required = true)int momentId) {
+        System.out.println("开始获取moment, userid = " + userId +", momentId="+momentId);
         List<FriendCircleEntity> result = new ArrayList<>();
-        List<MomentEntity> moments = momentService.findMomentByUserid(userId);
+        List<MomentEntity> moments = momentService.findMomentByUserid(userId, momentId);
         UserEntity userEntity = userService.findUserById(userId);
         for (MomentEntity moment : moments) {
             List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
@@ -65,22 +65,17 @@ public class MomentController {
 
     @GetMapping("/moment/all")
     @ApiOperation(value = "根据用户id获取朋友和自己的朋友圈")
-    public List<FriendCircleEntity> getAllMoments(@RequestParam(value = "userId", required = true) int userId) {
-        System.out.println("开始获取moment, userid = " + userId);
+    public List<FriendCircleEntity> getAllMoments(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true)int momentId) {
+        System.out.println("开始获取moment, userid = " + userId + ", momentId="+momentId);
         List<FriendCircleEntity> result = new ArrayList<>();
-        List<TimelineEntity> timelineEntities = timelineService.findByUserId(userId);
+        List<TimelineEntity> timelineEntities = timelineService.findByUserId(userId, momentId);
         List<MomentEntity> moments = new ArrayList<>();
         for(TimelineEntity t:timelineEntities){
             moments.add(momentService.findMomentById(t.getMomentId()));
         }
 
         for (MomentEntity moment : moments) {
-//            List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
-//            UserEntity userEntity = userService.findUserById(moment.getUserid());
-//            FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
-//            friendCircleEntity.setUserEntity(userEntity);
             result.add(getFriendCircleEntity(moment));
-
         }
         return result;
     }
