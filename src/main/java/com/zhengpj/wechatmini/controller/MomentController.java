@@ -48,8 +48,8 @@ public class MomentController {
 
     @GetMapping("/moment/self")
     @ApiOperation(value = "根据用户id获取自己的朋友圈")
-    public List<FriendCircleEntity> getSelfMoments(@RequestParam(value = "userId", required = true) int userId,@RequestParam(value = "momentId", required = true)int momentId) {
-        System.out.println("开始获取moment, userid = " + userId +", momentId="+momentId);
+    public List<FriendCircleEntity> getSelfMoments(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true) int momentId) {
+        System.out.println("开始获取moment, userid = " + userId + ", momentId=" + momentId);
         List<FriendCircleEntity> result = new ArrayList<>();
         List<MomentEntity> moments = momentService.findMomentByUserid(userId, momentId);
         UserEntity userEntity = userService.findUserById(userId);
@@ -65,12 +65,12 @@ public class MomentController {
 
     @GetMapping("/moment/all")
     @ApiOperation(value = "根据用户id获取朋友和自己的朋友圈")
-    public List<FriendCircleEntity> getAllMoments(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true)int momentId) {
-        System.out.println("开始获取moment, userid = " + userId + ", momentId="+momentId);
+    public List<FriendCircleEntity> getAllMoments(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true) int momentId) {
+        System.out.println("开始获取moment, userid = " + userId + ", momentId=" + momentId);
         List<FriendCircleEntity> result = new ArrayList<>();
         List<TimelineEntity> timelineEntities = timelineService.findByUserId(userId, momentId);
         List<MomentEntity> moments = new ArrayList<>();
-        for(TimelineEntity t:timelineEntities){
+        for (TimelineEntity t : timelineEntities) {
             moments.add(momentService.findMomentById(t.getMomentId()));
         }
 
@@ -79,13 +79,15 @@ public class MomentController {
         }
         return result;
     }
-    private FriendCircleEntity getFriendCircleEntity(MomentEntity moment){
+
+    private FriendCircleEntity getFriendCircleEntity(MomentEntity moment) {
         List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
         UserEntity userEntity = userService.findUserById(moment.getUserid());
         FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
         friendCircleEntity.setUserEntity(userEntity);
         return friendCircleEntity;
     }
+
     @GetMapping("moment/id")
     @ApiOperation(value = "根据朋友圈id获取单条朋友圈，刷新用")
     public FriendCircleEntity getSingleMoment(@RequestParam(value = "id") int id) {
@@ -109,7 +111,7 @@ public class MomentController {
     @GetMapping("/moment/praise")
     @ApiOperation(value = "根据momentId获取点赞")
     public List<PraiseEntity> getPraises(@RequestParam(value = "momentId", required = true) int momentId) {
-        System.out.println("开始获取评论,momentId=" + momentId);
+        System.out.println("开始获取点赞,momentId=" + momentId);
         return momentService.findPraisesByMomentId(momentId);
     }
 
@@ -120,5 +122,11 @@ public class MomentController {
         return momentService.addPraise(praise);
     }
 
+    @DeleteMapping("/moment/praise")
+    @ApiOperation(value = "根据momentId和userId取消点赞")
+    public boolean deletePraises(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true) int momentId) {
+        System.out.println("开始取消点赞,momentId=" + momentId + ", userId=" + userId);
+        return momentService.deletePraise(userId, momentId);
+    }
 
 }

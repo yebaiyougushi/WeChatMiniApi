@@ -77,7 +77,7 @@ public class MomentService {
             return flag;
         }
         if (flag) {
-            System.out.println("last momentid=" + lastMomentId+", momentRealId="+moment.getId());
+            System.out.println("last momentid=" + lastMomentId + ", momentRealId=" + moment.getId());
             for (ContactsEntity contactsEntity : friends) {
                 System.out.println("friendid = " + contactsEntity.getFriendId());
                 TimelineEntity timelineEntity = new TimelineEntity(0, contactsEntity.getFriendId(), moment.getId(), moment.getTimestamp());
@@ -87,13 +87,34 @@ public class MomentService {
         return flag;
     }
 
+    public boolean deletePraiseById(int id) {
+        boolean flag = false;
+        try {
+            praiseDao.deleteById(id);
+
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public boolean deletePraise(int userId, int momentId) {
+        boolean flag = false;
+        try {
+            praiseDao.deleteByPraiseUserIdAndMomentId(userId, momentId);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
 
     public boolean deleteMoment(int id) {
         boolean flag = false;
         try {
             momentDao.deleteById(id);
             timelineDao.deleteByMomentId(id);
-            //momentDao.deleteById(id);
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
