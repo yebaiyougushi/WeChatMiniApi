@@ -20,6 +20,7 @@ public interface PraiseDao extends JpaRepository<PraiseEntity, Integer> {
     void deleteByPraiseUserId(int userId);
 
     void deleteById(int id);
+
     @Transactional
     @Delete(value = "delete from praise where praiseUserId=?1 and momentId=?2")
     void deleteByPraiseUserIdAndMomentId(int userId, int momentId);
