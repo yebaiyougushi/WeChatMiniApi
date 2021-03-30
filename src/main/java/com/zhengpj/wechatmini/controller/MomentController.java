@@ -52,10 +52,12 @@ public class MomentController {
         System.out.println("开始获取moment, userid = " + userId + ", momentId=" + momentId);
         List<FriendCircleEntity> result = new ArrayList<>();
         List<MomentEntity> moments = momentService.findMomentByUserid(userId, momentId);
+
         UserEntity userEntity = userService.findUserById(userId);
         for (MomentEntity moment : moments) {
             List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
-            FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
+            List<CommentEntity> comments = momentService.findCommentsByMomentId(moment.getId());
+            FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises, comments);
             friendCircleEntity.setUserEntity(userEntity);
             result.add(friendCircleEntity);
 
@@ -82,8 +84,9 @@ public class MomentController {
 
     private FriendCircleEntity getFriendCircleEntity(MomentEntity moment) {
         List<PraiseEntity> praises = momentService.findPraisesByMomentId(moment.getId());
+        List<CommentEntity> comments = momentService.findCommentsByMomentId(moment.getId());
         UserEntity userEntity = userService.findUserById(moment.getUserid());
-        FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises);
+        FriendCircleEntity friendCircleEntity = new FriendCircleEntity(moment, praises, comments);
         friendCircleEntity.setUserEntity(userEntity);
         return friendCircleEntity;
     }
@@ -114,6 +117,13 @@ public class MomentController {
         System.out.println("开始获取点赞,momentId=" + momentId);
         return momentService.findPraisesByMomentId(momentId);
     }
+    @GetMapping("/moment/comment")
+    @ApiOperation(value = "根据momentId获取评论")
+    public List<CommentEntity> getComments(@RequestParam(value = "momentId", required = true) int momentId) {
+        System.out.println("开始获取评论,momentId=" + momentId);
+        return momentService.findCommentsByMomentId(momentId);
+        //return momentService.findPraisesByMomentId(momentId);
+    }
 
     @RequestMapping(value = "/moment/praise", method = RequestMethod.POST, headers = {"content-type=application/json"})
     @ApiOperation(value = "新增点赞")
@@ -122,11 +132,26 @@ public class MomentController {
         return momentService.addPraise(praise);
     }
 
+    @RequestMapping(value = "/moment/comment", method = RequestMethod.POST, headers = {"content-type=application/json"})
+    @ApiOperation(value = "新增评论")
+    public boolean addComment(@RequestBody CommentEntity commentEntity) {
+        System.out.println("开始新增评论, commentEntity:" + commentEntity.toString());
+        //return momentService.addPraise(praise);
+        return momentService.addComment(commentEntity);
+    }
+
     @DeleteMapping("/moment/praise")
     @ApiOperation(value = "根据momentId和userId取消点赞")
     public boolean deletePraises(@RequestParam(value = "userId", required = true) int userId, @RequestParam(value = "momentId", required = true) int momentId) {
         System.out.println("开始取消点赞,momentId=" + momentId + ", userId=" + userId);
         return momentService.deletePraise(userId, momentId);
+    }
+    @DeleteMapping("/moment/comment")
+    @ApiOperation(value = "根据评论id删除评论")
+    public boolean deleteComment(@RequestParam(value = "id", required = true) int id) {
+        System.out.println("开始删除评论,commentId=" + id);
+        return momentService.deleteComment(id);
+//        return momentService.deletePraise(userId, momentId);
     }
 
 }

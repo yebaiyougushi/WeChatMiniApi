@@ -26,13 +26,25 @@ public class TimelineEntity {
     @Column(name = "timestamp")
     private Timestamp timestamp;
 
-    public TimelineEntity(){}
+    private int contact;
 
-    public TimelineEntity(int id, int userId, int momentId, Timestamp timestamp) {
+    public TimelineEntity() {
+    }
+
+    public TimelineEntity(int id, int userId, int momentId, Timestamp timestamp, int contact) {
         this.id = id;
         this.userId = userId;
         this.momentId = momentId;
         this.timestamp = timestamp;
+        this.contact = contact;
+    }
+
+    public int getContact() {
+        return contact;
+    }
+
+    public void setContact(int contact) {
+        this.contact = contact;
     }
 
     public Timestamp getTimestamp() {
@@ -73,6 +85,7 @@ public class TimelineEntity {
                 "id=" + id +
                 ", userId=" + userId +
                 ", momentId=" + momentId +
+                ", contact=" + contact +
                 ", timestamp=" + timestamp +
                 '}';
     }

@@ -5,6 +5,7 @@ import com.zhengpj.wechatmini.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.domain.Pageable;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,8 +18,10 @@ public interface TimelineDao extends JpaRepository<TimelineEntity, Integer> {
     @Query(value = "select * from timeline where userId=?1 and momentId<?2 order by momentId desc limit 10", nativeQuery = true)
     List<TimelineEntity> findByUserIdOrderByMomentIdDesc(int userId, int momengId);
 
-    @Query(value = "select * from timeline where userId=?1 order by timestamp desc limit 10", nativeQuery = true)
+    @Query(value = "select * from timeline where userId=?1 and contact=0 order by timestamp desc limit 10", nativeQuery = true)
     List<TimelineEntity> findTimelineEntitiesByPage(int userId);
+
     void deleteByMomentId(int momentId);
+
     void deleteByUserId(int userId);
 }

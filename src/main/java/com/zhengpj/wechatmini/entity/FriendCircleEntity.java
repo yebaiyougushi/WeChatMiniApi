@@ -13,6 +13,7 @@ public class FriendCircleEntity implements Comparable<FriendCircleEntity>{
     private List<String> imgUrls;
     private List<PraiseEntity> praiseEntities;
     private UserEntity userEntity;
+    private List<CommentEntity> commentEntities;
     public FriendCircleEntity() {
     }
 
@@ -25,11 +26,20 @@ public class FriendCircleEntity implements Comparable<FriendCircleEntity>{
         this.imgUrls = imgUrls;
     }
 
-    public FriendCircleEntity(MomentEntity momentEntity, List<PraiseEntity> praiseEntities) {
+    public FriendCircleEntity(MomentEntity momentEntity, List<PraiseEntity> praiseEntities, List<CommentEntity> commentEntities) {
         this.momentEntity = momentEntity;
         imgUrls = new ArrayList<>();
         getUrlListFromMoment(momentEntity, imgUrls);
         this.praiseEntities = praiseEntities;
+        this.commentEntities = commentEntities;
+    }
+
+    public List<CommentEntity> getCommentEntities() {
+        return commentEntities;
+    }
+
+    public void setCommentEntities(List<CommentEntity> commentEntities) {
+        this.commentEntities = commentEntities;
     }
 
     public List<PraiseEntity> getPraiseEntities() {

@@ -3,14 +3,8 @@ package com.zhengpj.wechatmini.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zhengpj.wechatmini.controller.Helper;
-import com.zhengpj.wechatmini.dao.ContactsDao;
-import com.zhengpj.wechatmini.dao.MomentDao;
-import com.zhengpj.wechatmini.dao.PraiseDao;
-import com.zhengpj.wechatmini.dao.TimelineDao;
-import com.zhengpj.wechatmini.entity.ContactsEntity;
-import com.zhengpj.wechatmini.entity.MomentEntity;
-import com.zhengpj.wechatmini.entity.PraiseEntity;
-import com.zhengpj.wechatmini.entity.TimelineEntity;
+import com.zhengpj.wechatmini.dao.*;
+import com.zhengpj.wechatmini.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +27,8 @@ public class MomentService {
     PraiseDao praiseDao;
     @Autowired
     ContactsDao contactsDao;
-
+    @Autowired
+    CommentDao commentDao;
     @Autowired
     TimelineDao timelineDao;
 
@@ -67,7 +62,7 @@ public class MomentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        TimelineEntity t = new TimelineEntity(0, moment.getUserid(), moment.getId(), moment.getTimestamp());
+        TimelineEntity t = new TimelineEntity(0, moment.getUserid(), moment.getId(), moment.getTimestamp(), 0);
         try {
             timelineDao.save(t);
         } catch (Exception e) {
@@ -80,7 +75,7 @@ public class MomentService {
             System.out.println("last momentid=" + lastMomentId + ", momentRealId=" + moment.getId());
             for (ContactsEntity contactsEntity : friends) {
                 System.out.println("friendid = " + contactsEntity.getFriendId());
-                TimelineEntity timelineEntity = new TimelineEntity(0, contactsEntity.getFriendId(), moment.getId(), moment.getTimestamp());
+                TimelineEntity timelineEntity = new TimelineEntity(0, contactsEntity.getFriendId(), moment.getId(), moment.getTimestamp(), 0);
                 timelineDao.save(timelineEntity);
             }
         }
@@ -133,7 +128,30 @@ public class MomentService {
         }
         return flag;
     }
-
+    public boolean addComment(CommentEntity commentEntity) {
+        boolean flag = false;
+        try {
+            commentDao.save(commentEntity);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+    public boolean deleteComment(int id) {
+        boolean flag = false;
+        try {
+            commentDao.deleteById(id);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+    public List<CommentEntity> findCommentsByMomentId(int momentId) {
+        List<CommentEntity> result = commentDao.findByMomentId(momentId);
+        return result;
+    }
 
     public List<MomentEntity> findMomentByUserid(int userId, int momentId) {
         if (momentId == -1) {

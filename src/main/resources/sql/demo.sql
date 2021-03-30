@@ -35,6 +35,7 @@ create table `timeline`(
   `id` int not null AUTO_INCREMENT,
   `userId` int not null,
   `momentId` bigint not null,
+  `contact` int,
   `timestamp` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
   primary key (`id`),
   foreign key (userId) references user(id) on delete cascade on update cascade,
@@ -61,7 +62,7 @@ create table `moment` (
   foreign key (userid) references user(id) on delete cascade on update cascade
 
 )ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+DROP TABLE IF EXISTS `praise`;
 create table `praise` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `praiseUserNickname` varchar (30) NOT null ,
@@ -69,4 +70,20 @@ create table `praise` (
   `momentId` bigint(20) NOT NULL,
   primary key (`id`),
    foreign key (momentId) references moment(id) on delete cascade on update cascade
+)ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `comment`;
+create table `comment`(
+  `id` bigint(20) not null AUTO_INCREMENT,
+  `momentId` bigint(20) not null,
+  `commentType` int not null ,
+  `parentUserId` int,
+  `childUserId` int not null,
+  `parentUsername` varchar (30),
+  `childUsername` varchar (30),
+  `commentContent` varchar (200),
+  primary key (`id`),
+  foreign key (momentId) references moment(id) on delete cascade on update cascade,
+  foreign key (childUserId) references user(id) on delete cascade on update cascade
+
 )ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
