@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api")
 
-@Api(value = "MomentController|好友表控制器")
+@Api(value = "ContactController|好友表控制器")
 public class ContactController {
     @Autowired
     ContactsService contactsService;
