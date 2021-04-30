@@ -1,15 +1,25 @@
 package com.zhengpj.wechatmini.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zhengpj.wechatmini.entity.UserEntity;
+import com.zhengpj.wechatmini.entity.UserPwdEntity;
 import com.zhengpj.wechatmini.service.UserService;
+import com.zhengpj.wechatmini.service.impl.RegisterLoginService;
+import com.zhengpj.wechatmini.util.DateUtil;
+import com.zhengpj.wechatmini.util.IpUtil;
+import com.zhengpj.wechatmini.util.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +34,32 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RegisterLoginService registerLoginService;
+
+//     * 方法名：作用：登陆校验密码
+//     * 输入 username password  用户名，密码
+//     * 输出：code: 状态码   1 为认证成功 0 为用户不存在 -1 为密码不一致 -2 表示程序错误
+//     *       success:  true or false 执行成功或失败
+//     *       result：只在认证成功时返回，包含用户的全部信息
+//     *       messsage:
+//            *
+//            *
+//            */
+    @ResponseBody
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String toRegister(@RequestBody UserPwdEntity pwdEntity){
+
+        return registerLoginService.register(pwdEntity);
+    }
+    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String toLogin(@RequestBody UserPwdEntity pwdEntity) {
+        return registerLoginService.login(pwdEntity);
+
+    }
+
 
     @RequestMapping(value = "/user", method = RequestMethod.POST, headers = {"content-type=application/json"})
     @ApiOperation(value = "新增用户")

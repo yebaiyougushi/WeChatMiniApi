@@ -41,14 +41,12 @@
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.27" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.4.0" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework.boot:spring-boot-starter-tomcat:2.4.0" level="project" />
@@ -59,6 +57,15 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.4.0" level="project" />
+    <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.6" level="project" />
@@ -122,7 +129,6 @@
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.20" level="project" />
     <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.20" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-spi:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-core:2.9.2" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-schema:2.9.2" level="project" />
@@ -187,7 +193,6 @@
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:rank-eval-client:7.9.3" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:lang-mustache-client:7.9.3" level="project" />
     <orderEntry type="library" name="Maven: com.github.spullara.mustache.java:compiler:0.9.6" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jna:jna:3.0.9" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.67" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.nekohtml:nekohtml:1.9.22" level="project" />

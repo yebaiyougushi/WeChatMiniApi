@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("开始查询, nickname="+name);
         List<UserEntity> result = new ArrayList<>();
         result.addAll(userDao.findByNicknameLike("%"+name+"%"));
-        result.addAll(userDao.findByUsername(name));
+        result.addAll(userDao.findByUsernameLike("%"+name+"%"));
         HashSet<UserEntity> hashSet = new HashSet<>(result);
         result.clear();
         result.addAll(hashSet);

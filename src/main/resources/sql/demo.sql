@@ -2,24 +2,14 @@ CREATE DATABASE `WeChatMini`;
 
 USE `WeChatMini`;
 
-DROP TABLE IF EXISTS `user`;
--- //用户表
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL COMMENT 'id',
-  `nickname` varchar(30) DEFAULT NULL COMMENT '昵称',
-  `username` varchar (30) NOT null ,
-  `initialLetter` varchar (2) NOT NULL,
-  `contact` int ,
-  `modifyNicknameTimestamp` int ,
-  `modifyInitialLetterTimestamp` int,
-  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
-  `signature` varchar (50) COMMENT '个性签名',
-  `avatar` varchar (100) comment '头像',
-  `background` varchar (100) comment '背景'
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
--- //好友表
 drop table if exists `contact`;
+DROP TABLE IF EXISTS `praise`;
+DROP TABLE IF EXISTS `comment`;
+
+drop table if exists `timeline`;
+DROP TABLE IF EXISTS `moment`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `user_pwd`;
 create table `contact`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
@@ -30,6 +20,32 @@ create table `contact`(
   foreign key (userId) references user(id) on delete cascade on update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- //朋友圈发布时间表
+
+DROP TABLE IF EXISTS `praise`;
+create table `praise` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `praiseUserNickname` varchar (30) NOT null ,
+  `praiseUserId` int (11) not null ,
+  `momentId` bigint(20) NOT NULL,
+  primary key (`id`),
+   foreign key (momentId) references moment(id) on delete cascade on update cascade
+)ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `comment`;
+create table `comment`(
+  `id` bigint(20) not null AUTO_INCREMENT,
+  `momentId` bigint(20) not null,
+  `commentType` int not null ,
+  `parentUserId` int,
+  `childUserId` int not null,
+  `parentUsername` varchar (30),
+  `childUsername` varchar (30),
+  `commentContent` varchar (200),
+  primary key (`id`),
+  foreign key (momentId) references moment(id) on delete cascade on update cascade,
+  foreign key (childUserId) references user(id) on delete cascade on update cascade
+
+)ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 drop table if exists `timeline`;
 create table `timeline`(
   `id` int not null AUTO_INCREMENT,
@@ -62,28 +78,26 @@ create table `moment` (
   foreign key (userid) references user(id) on delete cascade on update cascade
 
 )ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-DROP TABLE IF EXISTS `praise`;
-create table `praise` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `praiseUserNickname` varchar (30) NOT null ,
-  `praiseUserId` int (11) not null ,
-  `momentId` bigint(20) NOT NULL,
-  primary key (`id`),
-   foreign key (momentId) references moment(id) on delete cascade on update cascade
-)ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `comment`;
-create table `comment`(
-  `id` bigint(20) not null AUTO_INCREMENT,
-  `momentId` bigint(20) not null,
-  `commentType` int not null ,
-  `parentUserId` int,
-  `childUserId` int not null,
-  `parentUsername` varchar (30),
-  `childUsername` varchar (30),
-  `commentContent` varchar (200),
-  primary key (`id`),
-  foreign key (momentId) references moment(id) on delete cascade on update cascade,
-  foreign key (childUserId) references user(id) on delete cascade on update cascade
-
-)ENGINE=InnoDB  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `user`;
+-- //用户表
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `nickname` varchar(30) DEFAULT NULL COMMENT '昵称',
+  `username` varchar (30) NOT null ,
+  `initialLetter` varchar (2) NOT NULL,
+  `contact` int ,
+  `modifyNicknameTimestamp` int ,
+  `modifyInitialLetterTimestamp` int,
+  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
+  `signature` varchar (50) COMMENT '个性签名',
+  `avatar` varchar (100) comment '头像',
+  `background` varchar (100) comment '背景',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- //好友表
+DROP TABLE IF EXISTS `user_pwd`;
+create table `user_pwd`(
+  `username` varchar (30) NOT null ,
+  `pwd` varchar (100) NOT null ,
+  primary key (`username`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
