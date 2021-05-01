@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author: xxm
+ *
  * 功能描述: SpringSecurity的配置
  * @date: 2020/5/28 15:14
  */

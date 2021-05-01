@@ -45,6 +45,10 @@ class RegisterLoginService {
 //        UserPwdEntity userPwdEntity = new UserPwdEntity(user.getId(),pwd);
         try{
             userDao.save(user);
+            BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+            System.out.println("加密之前密码为："+pwdEntity.getPwd());
+            pwdEntity.setPwd(encode.encode(pwdEntity.getPwd()));
+            System.out.println("加密之后密码为："+pwdEntity.getPwd());
             userPwdDao.save(pwdEntity);
             json.put("success", true);
             json.put("code", 1);
@@ -67,14 +71,12 @@ class RegisterLoginService {
         JSONObject json=new JSONObject();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
-            UserPwdEntity user1 =userPwdDao.findByUsername(pwdEntity.getUsername());
-            System.out.println("db_user1="+user1.toString());
+            UserPwdEntity user1 = userPwdDao.findByUsername(pwdEntity.getUsername());
             if (user1!=null) {
+                System.out.println("db_user1="+user1.toString());
                 String dbPassWord = user1.getPwd();
-                //bCryptPasswordEncoder.matches(pwdEntity.getPwd(),dbPassWord)
-                if (pwdEntity.getPwd().equals(dbPassWord)) {
+                if (bCryptPasswordEncoder.matches(pwdEntity.getPwd(),dbPassWord)) {
                     //创建token
-
                     String token = JwtUtil.generateToken(pwdEntity);
                     json.put("success", true);
                     json.put("code", 1);
@@ -85,6 +87,7 @@ class RegisterLoginService {
                 } else {
                     json.put("success", false);
                     json.put("code", -1);
+
                     json.put("message", "登陆失败,密码错误");
                 }
             }else {
